@@ -81,8 +81,8 @@ class ProductsController extends Controller
             //自作updateProduct関数を使いたいのでモデルクラスのインスタンス化
             $product = new Products();
             //モデルクラスのupdateProduct関数に更新前データ（$update）と入力値を渡す
-            $this->updateProduct($request, $update);
-            return back();
+            $product->updateProduct($request, $update);
+            return redirect (route('edit', $id));
     }
 
     //削除処理

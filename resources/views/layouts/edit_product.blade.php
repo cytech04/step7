@@ -44,7 +44,8 @@
                 </div>
 
                 <button type="submit" class="btn-default">更新</button>
-                <button type="button" onClick = "history.back()" class="rollback">戻る</button>
+                <button type="button" onclick="location.href='localhost:8888/step7/public/detail/4'" class="rollback">戻る</button>
+
             </form>
             
         </div>
