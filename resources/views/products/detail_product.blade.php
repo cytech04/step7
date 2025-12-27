@@ -17,19 +17,21 @@
                 <th>価格</th>
                 <th>在庫数</th>
                 <th>コメント</th>
-                
+                <th><a href= "{{ route('edit', ['id' => $detail->id]) }}" class= "edit_button">編集</a></th>
+                <th><a href= "{{ route('list') }}" class= "back">戻る</a></th>
+
          </tr>    
        </thead>
        <tbody>
          <tr>
                 <td>{{ $detail->id }}</td>
-                <td>{{ $detail->img_path }}</td> 
+                <td><img src="{{ asset($detail->img_path) }}"></td> 
                 <td>{{ $detail->product_name }}</td> 
                 <td>{{ $detail->company_name }}</td> 
                 <td>{{ $detail->price }}</td> 
                 <td>{{ $detail->stock }}</td> 
                 <td>{{ $detail->comment }}</td>
-                <td><a href= "{{ route('edit', ['id' => $detail->id]) }}" class= "edit_button">編集</a></td>
+                
                 
          </tr>
        </tbody >

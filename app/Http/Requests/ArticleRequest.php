@@ -44,7 +44,7 @@ class ArticleRequest extends FormRequest
         ];
     }
 
-    public function message() {
+    public function messages() {
         return [
             'product_name.required' => ':attributeは必須項目です。',
             'product_name.max' => ':attributeはmax字以内で入力してください。',
@@ -55,7 +55,7 @@ class ArticleRequest extends FormRequest
             'stock.required' => ':attributeは必須項目です。',
             'stock.integer' => ':attributeは数値で入力してください。',
             'comment.max' => ':attributeはmax字で入力してください。',
-            '.required.image' => ':attributeは画像ファイルを添付してください。',
+            'image.image' => ':attributeは画像ファイルを添付してください。',
         ];
     }
 }

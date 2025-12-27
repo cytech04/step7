@@ -8,7 +8,14 @@
 <body>
     <h1>商品一覧画面</h1>
     <input type="text" placeholder="検索キーワード">
-    <input type="text" placeholder="メーカー名">
+
+    <select class="form-control" id="category-id" name="category_id">
+    <option value="" disabled selected>メーカー名</option>
+            @foreach ($products as $product)
+                <option value="{{ $product->id }}">{{ $product->company_name }}</option>
+            @endforeach
+        </select>
+
     <input type="submit" value="検索">
 
     <table>
@@ -27,7 +34,7 @@
         @foreach ($products as $product)
             <tr>
                 <td>{{ $product->id }}</td>
-                <td>{{ $product->img_path }}</td> 
+                <td><img src="{{ asset($product->img_path) }}"></td> 
                 <td>{{ $product->product_name }}</td> 
                 <td>{{ $product->price }}</td> 
                 <td>{{ $product->stock }}</td> 

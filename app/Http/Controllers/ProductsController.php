@@ -16,7 +16,7 @@ class ProductsController extends Controller
         $model = new Products();
         $products = $model->getList();
         
-        return view('layouts.list',['products' => $products]);    
+        return view('products.list',['products' => $products]);    
     }
 
     //登録画面表示用関数
@@ -24,7 +24,7 @@ class ProductsController extends Controller
         $model = new Companies();
         $companies = $model->getList();
 
-        return view('layouts.regist',['companies' => $companies]);
+        return view('products.regist',['companies' => $companies]);
     }
 
     //登録処理用関数
@@ -33,6 +33,7 @@ class ProductsController extends Controller
         //画像ファイルの取得
         $image = $request->file('image');
         $image_path = null;
+        
         if($image){
            //画像ファイルのファイル名の取得
            $file_name = $image->getClientOriginalName();
@@ -63,14 +64,14 @@ class ProductsController extends Controller
     public function detaillist($id) {
             $detail = Products::find($id);
 
-            return view('layouts.detail_product', ['detail' => $detail]);
+            return view('products.detail_product', ['detail' => $detail]);
     }
 
     //編集画面
     public function editlist($id) {
         
             $edit = Products::find($id);
-            return view('layouts.edit_product', ['edit' => $edit]);
+            return view('products.edit_product', ['edit' => $edit]);
     }
 
     //更新処理

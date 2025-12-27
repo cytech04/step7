@@ -12,6 +12,7 @@ class Products extends Model
     protected $fillable =
     [
         'company_id',
+        'company_name',
         'product_name',
         'price',
         'stock',
@@ -21,8 +22,8 @@ class Products extends Model
     public function getList() {
         //productsテーブルからデータを取得
         $products = DB::table('products')
-    ->select('products.*', 'companies.company_name')
     ->join('companies', 'products.company_id', '=', 'companies.id')
+    ->select('products.*', 'companies.company_name')
     ->get();
 
         return $products;
