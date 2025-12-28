@@ -12,30 +12,31 @@
           
             <form action="{{ route('update', ['id' => $edit->id]) }}" method="post" enctype='multipart/form-data'>
                 @csrf
-                
+                @method('PUT')
+
                 <div class="form group">
                     <label for="product">商品名*</label>
-                    <input type="text" class="form-control" id="product" name="product_name" >
+                    <input type="text" class="form-control" id="product" name="product_name" value="{{ $edit->product_name }}">
                 </div>
 
                 <div class="form group">
                 <label for="company_name">メーカー名*</label>
-                    <input type="text" class="form-control" id="company_name" name="company_name" >
+                    <input type="text" class="form-control" id="company_name" name="company_name" alue="{{ $edit->company_name }}">
                 </div>    
 
                 <div class="form group">
                 <label for="price">価格*</label>
-                    <input type="text" class="form-control" id="price" name="price" >
+                    <input type="text" class="form-control" id="price" name="price" value="{{ $edit->price }}">
                 </div>
 
                 <div class="form group">
                 <label for="stock">在庫数*</label>
-                    <input type="text" class="form-control" id="stock" name="stock" >
+                    <input type="text" class="form-control" id="stock" name="stock" value="{{ $edit->stock }}">
                 </div>
 
                 <div class="form group">
                 <label for="comment">コメント</label>
-                    <input type="text" class="form-control" id="comment" name="comment" >
+                    <input type="text" class="form-control" id="comment" name="comment" value="{{ $edit->comment }}">
                 </div>
 
                 <div class="form group">
@@ -44,7 +45,7 @@
                 </div>
 
                 <button type="submit" class="btn-default">更新</button>
-                <button type="button" onclick="location.href='localhost:8888/step7/public/detail/4'" class="rollback">戻る</button>
+                <button type="button" onclick="location.href='{{ route('detail', ['id' => $edit->id]) }}'" class="rollback">戻る</button>
 
             </form>
             

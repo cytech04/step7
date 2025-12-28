@@ -33,12 +33,15 @@ Route::get('/detail/{id}', [App\Http\Controllers\ProductsController::class, 'det
 //商品編集画面
 Route::get('/edit/{id}', [App\Http\Controllers\ProductsController::class, 'editlist'])->name('edit');
 //商品更新処理
-Route::post('/update/{id}', [App\Http\Controllers\ProductsController::class, 'update'])->name('update');
+Route::put('/update/{id}', [App\Http\Controllers\ProductsController::class, 'update'])->name('update');
 //商品削除処理
 Route::post('/destroy/{id}', [App\Http\Controllers\ProductsController::class, 'destroy'])->name('destroy');
 //companiesテーブル表示
 Route::get('/companieslist', [App\Http\Controllers\CompaniesController::class, 'showList'])->name('companieslist');
 //salesテーブル表示
 Route::get('/saleslist', [App\Http\Controllers\SalesController::class, 'showList'])->name('saleslist');
+//検索機能
+Route::get('/', [App\Http\Controllers\ProductsController::class, 'index'])->name('index');
+
 
 Route::get('/detail', [App\Http\Controllers\ProductsController::class, 'detail'])->name('detaillist');

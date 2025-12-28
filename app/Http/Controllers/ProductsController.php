@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Companies;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class ProductsController extends Controller
 {
@@ -33,7 +34,7 @@ class ProductsController extends Controller
         //画像ファイルの取得
         $image = $request->file('image');
         $image_path = null;
-        
+
         if($image){
            //画像ファイルのファイル名の取得
            $file_name = $image->getClientOriginalName();
@@ -61,11 +62,16 @@ class ProductsController extends Controller
     }
     
     //詳細画面
-    public function detaillist($id) {
-            $detail = Products::find($id);
+    public function detaillist($id)
+{
+    $detail = DB::table('products')
+        ->join('companies', 'products.company_id', '=', 'companies.id')
+        ->select('products.*', 'companies.company_name')
+        ->where('products.id', $id)
+        ->first();
 
-            return view('products.detail_product', ['detail' => $detail]);
-    }
+    return view('products.detail_product', compact('detail'));
+}
 
     //編集画面
     public function editlist($id) {
@@ -75,23 +81,55 @@ class ProductsController extends Controller
     }
 
     //更新処理
-    public function update(Request $request, $id) {
-            //更新前データ($id)を抽出してインスタンス化($update)
-            $update = Products::find($id);
+    public function update(Request $request, $id)
+{
+    try {
+        DB::beginTransaction();
 
-            //自作updateProduct関数を使いたいのでモデルクラスのインスタンス化
-            $product = new Products();
-            //モデルクラスのupdateProduct関数に更新前データ（$update）と入力値を渡す
-            $product->updateProduct($request, $update);
-            return redirect (route('edit', $id));
+         //更新前データ($id)を抽出してインスタンス化($update)
+        $update = Products::find($id);
+        //自作updateProduct関数を使いたいのでモデルクラスのインスタンス化
+        $product = new Products();
+        //モデルクラスのupdateProduct関数に更新前データ（$update）と入力値を渡す
+        $product->updateProduct($request, $update);
+        DB::commit();
+
+        return redirect()->route('edit', ['id' => $id]);
+
+    } catch (Exception $e) {
+        DB::rollback();
+        return redirect()->route('edit', ['id' => $id]);
     }
+}
 
     //削除処理
-    public function destroy($id){
-            $product = Products::find($id);
-            $product->delete();
+    public function destroy($id)
+{
+    try {
+        DB::beginTransaction();
 
-            return redirect()->route('list');
+        $product = Products::findOrFail($id);
+        $product->delete();
+
+        DB::commit();
+
+        return redirect()->route('list');
+
+    } catch (Exception $e) {
+        DB::rollBack();
     }
+}
+    
+    //検索機能
+    public function index(ArticleRequest $request){
+        $search = $request->input('keyword');
+        $query = products::query();
 
-}   
+        
+        if(!empty($search)){
+            $query->where('product_name', 'Like', "%{$keyword}%")
+            ->orWhere('company_name', 'Like', "%{$company_keyword}%");
+        }
+        return view('products.list', compact('keyword'));
+    } 
+}    

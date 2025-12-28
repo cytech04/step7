@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>商品一覧画面</title>
 </head>
+
 <body>
     <h1>商品一覧画面</h1>
-    <input type="text" placeholder="検索キーワード">
 
-    <select class="form-control" id="category-id" name="category_id">
+<form action="{{ route('index') }}" method="get">
+    <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="検索キーワード">
+
+    <select class="company_select" name="company_select">
     <option value="" disabled selected>メーカー名</option>
             @foreach ($products as $product)
                 <option value="{{ $product->id }}">{{ $product->company_name }}</option>
             @endforeach
-        </select>
+    </select>
 
     <input type="submit" value="検索">
+</form>
 
     <table>
         <thead>
@@ -40,11 +45,11 @@
                 <td>{{ $product->stock }}</td> 
                 <td>{{ $product->company_name }}</td> 
                 <td><a href= "{{ route('detail',['id' =>$product->id]) }}" class="registbutton">詳細</a></td>
-                
-                    <form action= "{{ route('destroy' ,['id' =>$product->id]) }}" method= "post">
-                       @csrf
+                <td><form action= "{{ route('destroy' ,['id' =>$product->id]) }}" method= "post">
+                    @csrf
                        <button type= "submit" class= "danger">削除</button>
-                    </form>
+                </form>
+                </td>
 
             </tr>
         @endforeach

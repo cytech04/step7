@@ -17,6 +17,7 @@ class Products extends Model
         'price',
         'stock',
         'comment',
+        'img_path',
     ];
 
     public function getList() {
@@ -44,15 +45,18 @@ class Products extends Model
 
      //更新処理（引数にはコントローラーから入力値と更新前データが渡されている）
      public function updateProduct($request, $update){
-        
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('products', 'public');
+            $update->img_path = $path;
+        }
             //$update（更新前データ）を入力値にまとめて更新する処理
             $update->fill([
                 'product_name' => $request->product_name,
-                'company_name' => $request->company_name,
+                'company_id' => $request->company_name,
                 'price' => $request->price,
                 'stock' => $request->stock,
                 'comment' => $request->comment,
-                'image' => $request->image,
             ])->save();
      }
      
