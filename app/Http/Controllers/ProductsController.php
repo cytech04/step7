@@ -12,6 +12,7 @@ use Exception;
 
 class ProductsController extends Controller
 {
+    //商品一覧画面
     public function showList() {
         //インスタンス生成
         $model = new Products();
@@ -46,7 +47,6 @@ class ProductsController extends Controller
         
         //トランザクション開始
         DB::beginTransaction();
-
         try {
             //登録処理呼び出し
             $model = new Products();
@@ -56,36 +56,37 @@ class ProductsController extends Controller
             DB::rollback();
             return back();
         }
-
         //処理が完了したらregistにリダイレクト
         return redirect(route('regist'));
     }
     
     //詳細画面
-    public function detaillist($id)
-{
+    public function detaillist($id){
+
     $detail = DB::table('products')
         ->join('companies', 'products.company_id', '=', 'companies.id')
         ->select('products.*', 'companies.company_name')
         ->where('products.id', $id)
         ->first();
 
-    return view('products.detail_product', compact('detail'));
-}
+        return view('products.detail_product', compact('detail'));
+    }
 
     //編集画面
-    public function editlist($id) {
-        
-            $edit = Products::find($id);
-            return view('products.edit_product', ['edit' => $edit]);
+    public function editlist($id){
+
+        $edit = Products::find($id);
+        $companies = Companies::all();
+
+    return view('products.edit_product', compact('edit', 'companies'));
+
     }
 
     //更新処理
-    public function update(Request $request, $id)
-{
-    try {
-        DB::beginTransaction();
+    public function update(ArticleRequest $request, $id){
 
+        DB::beginTransaction();
+        try {
          //更新前データ($id)を抽出してインスタンス化($update)
         $update = Products::find($id);
         //自作updateProduct関数を使いたいのでモデルクラスのインスタンス化
@@ -96,7 +97,7 @@ class ProductsController extends Controller
 
         return redirect()->route('edit', ['id' => $id]);
 
-    } catch (Exception $e) {
+        } catch (Exception $e) {
         DB::rollback();
         return redirect()->route('edit', ['id' => $id]);
     }

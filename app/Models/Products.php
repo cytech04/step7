@@ -20,9 +20,10 @@ class Products extends Model
         'img_path',
     ];
 
+    //productsテーブル全件とcompaniesテーブルのcompany_name取得
     public function getList() {
-        //productsテーブルからデータを取得
-        $products = DB::table('products')
+    //idでテーブルを連結してproductテーブル全件とcompaniesテーブルのcompany_nameを取得
+    $products = DB::table('products')
     ->join('companies', 'products.company_id', '=', 'companies.id')
     ->select('products.*', 'companies.company_name')
     ->get();
@@ -30,12 +31,12 @@ class Products extends Model
         return $products;
     }
 
-    //情報登録用関数
+    //新規登録処理
     public function registArticle($data,$image_path) {
-        //登録処理
+        //テーブルのカラムに入力欄の内容を挿入。
         DB::table('products')->insert([
             'product_name' => $data->product_name,
-            'company_id' => $data->company_name,
+            'company_name' => $data->company_name,
             'price' => $data->price,
             'stock' => $data->stock,
             'comment' => $data->comment,
@@ -43,26 +44,32 @@ class Products extends Model
         ]);
     }
 
-     //更新処理（引数にはコントローラーから入力値と更新前データが渡されている）
-     public function updateProduct($request, $update){
+    //更新処理
+    public function updateProduct($request, $update){
+        
+        //画像以外のデータを$dataへ格納処理。
+        $data([
+            'product_name' => $request->product_name,
+            'company_id' => $request->company_id,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'comment' => $request->comment,
+        ]);
 
+        //画像の取得処理
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
-            $update->img_path = $path;
+        //$dataに画像の情報を格納。（※他のデータは下の処理で実施。）
+            $data['img_path'] = $path;
         }
-            //$update（更新前データ）を入力値にまとめて更新する処理
-            $update->fill([
-                'product_name' => $request->product_name,
-                'company_id' => $request->company_name,
-                'price' => $request->price,
-                'stock' => $request->stock,
-                'comment' => $request->comment,
-            ])->save();
-     }
+
+        //$update(更新前情報)に$dataの内容に更新＆保存処理。
+        $update->fill($data)->save();
+    }
      
-     //削除処理
+    //削除処理
      public function deleteProduct($id){
           return $this->destroy($id);
-     }
+    }
      
 }

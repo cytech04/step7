@@ -21,7 +21,14 @@
 
                 <div class="form group">
                 <label for="company_name">メーカー名*</label>
-                    <input type="text" class="form-control" id="company_name" name="company_name" alue="{{ $edit->company_name }}">
+                <select name="company_id" class="form-control">
+                @foreach($companies as $company)
+                  <option value="{{ $company->id }}"
+                    {{ $company->id == $edit->company_id ? 'selected' : '' }}>
+                    {{ $company->company_name }}
+                  </option>
+                @endforeach
+                </select>                
                 </div>    
 
                 <div class="form group">

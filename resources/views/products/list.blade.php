@@ -19,7 +19,6 @@
                 <option value="{{ $product->id }}">{{ $product->company_name }}</option>
             @endforeach
     </select>
-
     <input type="submit" value="検索">
 </form>
 

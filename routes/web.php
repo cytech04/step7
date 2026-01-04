@@ -44,4 +44,4 @@ Route::get('/saleslist', [App\Http\Controllers\SalesController::class, 'showList
 Route::get('/', [App\Http\Controllers\ProductsController::class, 'index'])->name('index');
 
 
-Route::get('/detail', [App\Http\Controllers\ProductsController::class, 'detail'])->name('detaillist');
+//Route::get('/detail', [App\Http\Controllers\ProductsController::class, 'detail'])->name('detaillist');

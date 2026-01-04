@@ -24,6 +24,9 @@
                         <option value="{{ $company->id }}"> {{ $company->company_name }}</option>
                         @endforeach
                     </select>
+                    @if($errors->has('company_name'))
+                        <p>{{ $errors->first('company_name') }}</p>
+                    @endif
                 </div>    
 
                 <div class="form group">
