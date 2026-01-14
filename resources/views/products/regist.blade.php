@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.parent')
 
 @section('title', '商品新規登録画面')
 

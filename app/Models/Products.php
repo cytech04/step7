@@ -12,7 +12,6 @@ class Products extends Model
     protected $fillable =
     [
         'company_id',
-        'company_name',
         'product_name',
         'price',
         'stock',
@@ -48,13 +47,13 @@ class Products extends Model
     public function updateProduct($request, $update){
         
         //画像以外のデータを$dataへ格納処理。
-        $data([
+        $data = [
             'product_name' => $request->product_name,
             'company_id' => $request->company_id,
             'price' => $request->price,
             'stock' => $request->stock,
             'comment' => $request->comment,
-        ]);
+        ];
 
         //画像の取得処理
         if ($request->hasFile('image')) {

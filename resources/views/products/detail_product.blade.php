@@ -25,7 +25,7 @@
        <tbody>
          <tr>
                 <td>{{ $detail->id }}</td>
-                <td><img src="{{ asset($detail->img_path) }}"></td> 
+                <td><img src="{{ asset('storage/' . $detail->img_path) }}" width="100"></td> 
                 <td>{{ $detail->product_name }}</td> 
                 <td>{{ $detail->company_name }}</td> 
                 <td>{{ $detail->price }}</td> 
