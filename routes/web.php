@@ -41,7 +41,7 @@ Route::get('/companieslist', [App\Http\Controllers\CompaniesController::class, '
 //salesテーブル表示
 Route::get('/saleslist', [App\Http\Controllers\SalesController::class, 'showList'])->name('saleslist');
 //検索機能
-Route::get('/', [App\Http\Controllers\ProductsController::class, 'index'])->name('index');
+//Route::post('/search', [App\Http\Controllers\ProductsController::class, 'search'])->name('search');
 
 
 //Route::get('/detail', [App\Http\Controllers\ProductsController::class, 'detail'])->name('detaillist');

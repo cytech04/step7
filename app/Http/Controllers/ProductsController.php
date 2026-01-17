@@ -13,12 +13,16 @@ use Exception;
 class ProductsController extends Controller
 {
     //商品一覧画面
-    public function showList() {
+    public function showList(Request $request) {
         //インスタンス生成
         $model = new Products();
         $products = $model->getList();
-        
-        return view('products.list',['products' => $products]);    
+
+        $keyword = $request->input('keyword');
+        $model = new products();
+        $products_modelsearch = $model->search($keyword);
+
+    return view('products.list',['products' => $products], ['products' => $products_modelsearch]);    
     }
 
     //登録画面表示用関数
@@ -122,15 +126,11 @@ class ProductsController extends Controller
 }
     
     //検索機能
-    public function index(ArticleRequest $request){
-        $search = $request->input('keyword');
-        $query = products::query();
+//public function search(Request $request){
+      //$keyword = $request->input('keyword');
+      //$model = new products();
+      //$products_modelsearch = $model->search($keyword);
 
-        
-        if(!empty($search)){
-            $query->where('product_name', 'Like', "%{$keyword}%")
-            ->orWhere('company_name', 'Like', "%{$company_keyword}%");
-        }
-        return view('products.list', compact('keyword'));
-    } 
+        //return view('products.list', ['products' => $products_modelsearch]);
+    //} 
 }    

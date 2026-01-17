@@ -10,8 +10,8 @@
 <body>
     <h1>商品一覧画面</h1>
 
-<form action="{{ route('index') }}" method="get">
-    <input type="text" name="keyword" value="{{ request('keyword') }}" placeholder="検索キーワード">
+<form action="{{ route('list') }}" method="get">
+    <input type="text" name="keyword" placeholder="検索キーワード">
 
     <select class="company_select" name="company_select">
     <option value="" disabled selected>メーカー名</option>

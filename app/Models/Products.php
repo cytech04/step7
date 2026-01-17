@@ -71,4 +71,14 @@ class Products extends Model
           return $this->destroy($id);
     }
      
+    //検索処理
+    public function search($keyword){
+        $products = DB::table('products')
+        ->join('companies', 'products.company_id', '=', 'companies.id')
+        ->select('products.*', 'companies.company_name')
+        ->where('products.product_name','like','%'. $keyword.'%');
+        
+ 
+  }
+
 }
