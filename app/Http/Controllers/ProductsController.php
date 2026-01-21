@@ -14,15 +14,22 @@ class ProductsController extends Controller
 {
     //商品一覧画面
     public function showList(Request $request) {
-        //インスタンス生成
         $model = new Products();
-        $products = $model->getList();
-
+        
+        // 検索キーワードを取得
         $keyword = $request->input('keyword');
-        $model = new products();
-        $products_modelsearch = $model->search($keyword);
-
-    return view('products.list',['products' => $products], ['products' => $products_modelsearch]);    
+        
+        // キーワードがある場合は検索、ない場合は全件取得
+        if ($keyword) {
+            $products = $model->search($keyword);
+        } else {
+            $products = $model->getList();
+        }
+        
+        // ビューにデータを渡す（1つの配列にまとめる）
+        return view('products.list', [
+            'products' => $products
+        ]);    
     }
 
     //登録画面表示用関数

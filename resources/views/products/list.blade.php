@@ -9,8 +9,11 @@
 
 <body>
     <h1>商品一覧画面</h1>
-
-<form action="{{ route('list') }}" method="get">
+    <form action="{{ route('list') }}" method="get">
+        <input type="text" name="keyword" placeholder="検索キーワード" value="{{ request('keyword') }}">
+    <input type="submit" value="検索">
+    </form>
+<!--<form action="{{ route('list') }}" method="get">
     <input type="text" name="keyword" placeholder="検索キーワード">
 
     <select class="company_select" name="company_select">
@@ -20,7 +23,7 @@
             @endforeach
     </select>
     <input type="submit" value="検索">
-</form>
+</form>-->
 
     <table>
         <thead>
