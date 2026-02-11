@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-//商品一覧画面
+//ログイン後画面
 Route::post('/list', [App\Http\Controllers\ProductsController::class, 'showList'])->name('login_list');
 //商品一覧画面
 Route::get('/list', [App\Http\Controllers\ProductsController::class, 'showList'])->name('list');
@@ -36,12 +36,10 @@ Route::get('/edit/{id}', [App\Http\Controllers\ProductsController::class, 'editl
 Route::put('/update/{id}', [App\Http\Controllers\ProductsController::class, 'update'])->name('update');
 //商品削除処理
 Route::post('/destroy/{id}', [App\Http\Controllers\ProductsController::class, 'destroy'])->name('destroy');
+
+
+
 //companiesテーブル表示
 Route::get('/companieslist', [App\Http\Controllers\CompaniesController::class, 'showList'])->name('companieslist');
 //salesテーブル表示
 Route::get('/saleslist', [App\Http\Controllers\SalesController::class, 'showList'])->name('saleslist');
-//検索機能
-//Route::post('/search', [App\Http\Controllers\ProductsController::class, 'search'])->name('search');
-
-
-//Route::get('/detail', [App\Http\Controllers\ProductsController::class, 'detail'])->name('detaillist');

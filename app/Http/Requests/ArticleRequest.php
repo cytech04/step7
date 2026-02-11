@@ -21,8 +21,7 @@ class ArticleRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             'product_name' => 'required|max:255',
             'company_id' => 'required|exists:companies,id',
@@ -32,8 +31,7 @@ class ArticleRequest extends FormRequest
             'image' => 'nullable|image',
         ];
     }
-    public function attributes()
-    {
+    public function attributes() {
         return [
             'product_name' => '製品名',
             'company_id' => 'メーカ名',
@@ -49,7 +47,6 @@ class ArticleRequest extends FormRequest
             'product_name.required' => ':attributeは必須項目です。',
             'product_name.max' => ':attributeはmax字以内で入力してください。',
             'company_id.required' => ':attributeは必須項目です。',
-            //'company_id.max' => ':attributeはmax字以内で入力してください。',
             'price.required' => ':attributeは必須項目です。',
             'price.integer' => ':attributeは数値で入力してください。',
             'stock.required' => ':attributeは必須項目です。',

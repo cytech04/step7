@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品詳細画面</title>
-</head>
-<body>
+@extends('layouts.parent')
+
+@section('title', '商品情報詳細画面')
+
+@section('content') 
     <h1>商品情報詳細画面</h1>
-    <table>
+
+     <table>
        <thead>
          <tr>
                 <th>ID</th>
@@ -22,6 +20,7 @@
 
          </tr>    
        </thead>
+
        <tbody>
          <tr>
                 <td>{{ $detail->id }}</td>
@@ -34,7 +33,7 @@
                 
                 
          </tr>
-       </tbody >
-        
-</body>
-</html>
+       </tbody >  
+     </table>
+
+@endsection

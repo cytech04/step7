@@ -18,19 +18,19 @@
                 </div>
 
                 <div class="form group">
-                <label for="company_name">メーカー名*</label>
-                    <select class="form-control" id="company_name" name="company_name">
+                    <label for="company_name">メーカー名*</label>
+                    <select class="form-control" id="company_id" name="company_id">
                         @foreach($companies as $company)
                         <option value="{{ $company->id }}"> {{ $company->company_name }}</option>
                         @endforeach
                     </select>
-                    @if($errors->has('company_name'))
-                        <p>{{ $errors->first('company_name') }}</p>
+                    @if($errors->has('company_id'))
+                        <p>{{ $errors->first('company_id') }}</p>
                     @endif
                 </div>    
 
                 <div class="form group">
-                <label for="price">価格*</label>
+                    <label for="price">価格*</label>
                     <input type="text" class="form-control" id="price" name="price">
                     @if($errors->has('price'))
                         <p>{{ $errors->first('price') }}</p>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="form group">
-                <label for="stock">在庫数*</label>
+                    <label for="stock">在庫数*</label>
                     <input type="text" class="form-control" id="stock" name="stock">
                     @if($errors->has('stock'))
                         <p>{{ $errors->first('stock') }}</p>
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="form group">
-                <label for="comment">コメント</label>
+                    <label for="comment">コメント</label>
                     <input type="text" class="form-control" id="comment" name="comment">
                     @if($errors->has('comment'))
                         <p>{{ $errors->first('comment') }}</p>
@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="form group">
-                <label for="image">商品画像</label>
+                    <label for="image">商品画像</label>
                     <input type="file" name="image">
                     @if($errors->has('image'))
                         <p>{{ $errors->first('image') }}</p>

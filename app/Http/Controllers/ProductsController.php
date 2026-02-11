@@ -18,17 +18,16 @@ class ProductsController extends Controller
         
         // 検索キーワードを取得
         $keyword = $request->input('keyword');
+        $company_id = $request->input('company_id');
         
-        // キーワードがある場合は検索、ない場合は全件取得
-        if ($keyword) {
-            $products = $model->search($keyword);
-        } else {
-            $products = $model->getList();
-        }
+        $products = $model->search($keyword, $company_id);
+        
+        $companies = Companies::all();
         
         // ビューにデータを渡す（1つの配列にまとめる）
         return view('products.list', [
-            'products' => $products
+            'products' => $products,
+            'companies' => $companies,
         ]);    
     }
 
@@ -42,7 +41,7 @@ class ProductsController extends Controller
 
     //登録処理用関数
     public function registSubmit(ArticleRequest $request) {
-   
+
         //画像ファイルの取得
         $image = $request->file('image');
         $image_path = null;
@@ -53,7 +52,7 @@ class ProductsController extends Controller
            //storage/app/public/imagesフォルダ内に、取得したファイル名で保存
            $image->storeAs('public/images', $file_name);
            //データベース登録用に、ファイルパスを作成
-           $image_path = 'storage/images/' . $file_name;
+           $image_path = 'images/' . $file_name;
         }
         
         //トランザクション開始
@@ -67,14 +66,14 @@ class ProductsController extends Controller
             DB::rollback();
             return back();
         }
-        //処理が完了したらregistにリダイレクト
-        return redirect(route('regist'));
+            //処理が完了したらregistにリダイレクト
+            return redirect(route('regist'));
     }
     
     //詳細画面
-    public function detaillist($id){
+    public function detaillist($id) {
 
-    $detail = DB::table('products')
+        $detail = DB::table('products')
         ->join('companies', 'products.company_id', '=', 'companies.id')
         ->select('products.*', 'companies.company_name')
         ->where('products.id', $id)
@@ -89,36 +88,34 @@ class ProductsController extends Controller
         $edit = Products::find($id);
         $companies = Companies::all();
 
-    return view('products.edit_product', compact('edit', 'companies'));
+        return view('products.edit_product', compact('edit', 'companies'));
 
     }
 
     //更新処理
-    public function update(ArticleRequest $request, $id){
+    public function update(ArticleRequest $request, $id) {
 
         DB::beginTransaction();
         try {
-         //更新前データ($id)を抽出してインスタンス化($update)
-        $update = Products::find($id);
-        //自作updateProduct関数を使いたいのでモデルクラスのインスタンス化
-        $product = new Products();
-        //モデルクラスのupdateProduct関数に更新前データ（$update）と入力値を渡す
-        $product->updateProduct($request, $update);
-        DB::commit();
-
-        return redirect()->route('edit', ['id' => $id]);
-
+            //更新前データ($id)を抽出してインスタンス化($update)
+            $update = Products::find($id);
+            //自作updateProduct関数を使いたいのでモデルクラスのインスタンス化
+            $product = new Products();
+            //モデルクラスのupdateProduct関数に更新前データ（$update）と入力値を渡す
+            $product->updateProduct($request, $update);
+            DB::commit();
+            return redirect()->route('edit', ['id' => $id]);
         } catch (Exception $e) {
-        DB::rollback();
-        return redirect()->route('edit', ['id' => $id]);
+            DB::rollback();
+            return redirect()->route('edit', ['id' => $id]);
+        }
     }
-}
 
     //削除処理
-    public function destroy($id)
-{
-    try {
+    public function destroy($id) {
+
         DB::beginTransaction();
+        try {
 
         $product = Products::findOrFail($id);
         $product->delete();
@@ -127,17 +124,8 @@ class ProductsController extends Controller
 
         return redirect()->route('list');
 
-    } catch (Exception $e) {
+        } catch (Exception $e) {
         DB::rollBack();
+        }
     }
 }
-    
-    //検索機能
-//public function search(Request $request){
-      //$keyword = $request->input('keyword');
-      //$model = new products();
-      //$products_modelsearch = $model->search($keyword);
-
-        //return view('products.list', ['products' => $products_modelsearch]);
-    //} 
-}    

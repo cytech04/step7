@@ -21,11 +21,11 @@ class Products extends Model
 
     //productsテーブル全件とcompaniesテーブルのcompany_name取得
     public function getList() {
-    //idでテーブルを連結してproductテーブル全件とcompaniesテーブルのcompany_nameを取得
-    $products = DB::table('products')
-    ->join('companies', 'products.company_id', '=', 'companies.id')
-    ->select('products.*', 'companies.company_name')
-    ->get();
+        //idでテーブルを連結してproductテーブル全件とcompaniesテーブルのcompany_nameを取得
+        $products = DB::table('products')
+        ->join('companies', 'products.company_id', '=', 'companies.id')
+        ->select('products.*', 'companies.company_name')
+        ->get();
 
         return $products;
     }
@@ -35,7 +35,7 @@ class Products extends Model
         //テーブルのカラムに入力欄の内容を挿入。
         DB::table('products')->insert([
             'product_name' => $data->product_name,
-            'company_name' => $data->company_name,
+            'company_id' => $data->company_id,
             'price' => $data->price,
             'stock' => $data->stock,
             'comment' => $data->comment,
@@ -44,7 +44,7 @@ class Products extends Model
     }
 
     //更新処理
-    public function updateProduct($request, $update){
+    public function updateProduct($request, $update) {
         
         //画像以外のデータを$dataへ格納処理。
         $data = [
@@ -67,26 +67,29 @@ class Products extends Model
     }
      
     //削除処理
-     public function deleteProduct($id){
-          return $this->destroy($id);
+    public function deleteProduct($id) {
+        return $this->destroy($id);
     }
 
     //検索処理
-    public function search($keyword){
-        $products = DB::table('products')
-            ->join('companies', 'products.company_id', '=', 'companies.id')
-            ->select('products.*', 'companies.company_name')
-            ->where('products.product_name', 'like', '%' . $keyword . '%')
-            ->get();
-        
-        return $products;
-    }
-        //$products = DB::table('products')
-        //->join('companies', 'products.company_id', '=', 'companies.id')
-       // ->select('products.*', 'companies.company_name')
-        //->where('products.product_name','like','%'. $keyword.'%');
-//return $products;
+    public function search($keyword, $company_id) {
+        $query = DB::table('products')
+        ->join('companies', 'products.company_id', '=', 'companies.id')
+        ->select(
+            'products.*',
+            'companies.company_name'
+        );
+
+        //キーワード検索
+        if (!empty($keyword)){
+        $query->where('products.product_name', 'like', '%' . $keyword . '%');
+        }
  
-  }
+        // メーカー検索
+        if (!empty($company_id)){
+        $query->where('products.company_id', $company_id);
+        }
 
-
+        return $query->get();
+    }   
+}

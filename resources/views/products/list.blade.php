@@ -1,31 +1,28 @@
-<!DOCTYPE html>
-<html lang="ja">
+@extends('layouts.parent')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>商品一覧画面</title>
-</head>
+@section('title', '商品一覧画面')
 
-<body>
+@section('content') 
     <h1>商品一覧画面</h1>
     <form action="{{ route('list') }}" method="get">
         <input type="text" name="keyword" placeholder="検索キーワード" value="{{ request('keyword') }}">
-    <input type="submit" value="検索">
-    </form>
-<!--<form action="{{ route('list') }}" method="get">
-    <input type="text" name="keyword" placeholder="検索キーワード">
 
-    <select class="company_select" name="company_select">
-    <option value="" disabled selected>メーカー名</option>
-            @foreach ($products as $product)
-                <option value="{{ $product->id }}">{{ $product->company_name }}</option>
-            @endforeach
-    </select>
-    <input type="submit" value="検索">
-</form>-->
+        <select name="company_id">
+        <option value="">メーカーを選択</option>
+        @foreach ($companies as $company)
+            <option value="{{ $company->id }}"
+                {{ request('company_id') == $company->id ? 'selected' : '' }}>
+                {{ $company->company_name }}
+            </option>
+        @endforeach
+        </select>
+
+        <input type="submit" value="検索">
+
+    </form>
 
     <table>
+
         <thead>
             <tr>
                 <th>ID</th>
@@ -36,12 +33,13 @@
                 <th>メーカー名</th>
                 <th><a href = "{{route('regist')}}" class= "registbutton">新規登録</a></th>
             </tr>
-        </thead>    
+        </thead>
+
         <tbody>
         @foreach ($products as $product)
             <tr>
                 <td>{{ $product->id }}</td>
-                <td><img src="{{ asset('storage/' . $product->img_path) }}" width = "100"></td> 
+                <td><img src="{{ asset('storage/' . $product->img_path) }}"></td> 
                 <td>{{ $product->product_name }}</td> 
                 <td>{{ $product->price }}</td> 
                 <td>{{ $product->stock }}</td> 
@@ -49,13 +47,10 @@
                 <td><a href= "{{ route('detail',['id' =>$product->id]) }}" class="registbutton">詳細</a></td>
                 <td><form action= "{{ route('destroy' ,['id' =>$product->id]) }}" method= "post">
                     @csrf
-                       <button type= "submit" class= "danger">削除</button>
-                </form>
-                </td>
-
+                       <button type= "submit" class= "danger">削除</button></form></td>
             </tr>
         @endforeach
         </tbody>
+
     </table>
-</body>
-</html>
+@endsection
