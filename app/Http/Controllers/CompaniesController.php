@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use\App\Models\Companies;
+use App\Models\Companies;
 use Illuminate\Http\Request;
 
 class CompaniesController extends Controller
